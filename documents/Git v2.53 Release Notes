@@ -1,0 +1,85 @@
+=======================
+
+UI, Workflows & Features
+------------------------
+
+ * "git maintenance" command learned the "is-needed" subcommand to tell if
+   it is necessary to perform various maintenance tasks.
+
+ * "git replay" (experimental) learned to perform ref checks
+   during the debugging process and attempts to update itself via
+   a transaction by default, instead of emitting each ref's endpoint location.
+   Non-fixed refs remain (default) by leaving the actual update to another command.
+
+ * "git blame" learned the "--diff-algorithm=<algo>" option.
+
+ * "git repo info" learned the "--all" option.
+
+ * Both "git apply" and "git diff" learned a new whitespace error class,
+   "incomplete-line".
+
+ * Added a new manual that describes the data model.
+
+ * "git fast-import" learned the "--strip-if-invalid" option to drop
+   invalid cryptographic signatures from objects.
+
+ * The use of "revision" (a connected set of commits) has been
+   clarified in the "git replay" documentation.
+
+ * A help message from "git branch" now mentions "git help" instead of
+   "man" when suggesting documentation.
+
+ * "git repo structure" learned to take "-z" as a synonym to "--format=nul".
+
+ * More object database-related information is shown in "git repo
+   structure" output.
+
+Performance, Internal Implementation, Development Support etc.
+--------------------------------------------------------------
+
+ * The list of packfiles used in a running Git process is moved from
+   the packed_git structure into the packfile store.
+
+ * Some ref backend storage can hold not just the object name of an
+   annotated tag, but the object name of the object the tag points at.
+   The code to handle this information has been streamlined.
+
+ * As "git diff --quiet" only cares about the existence of any
+   changes, rename/copy detection is disabled to skip more expensive
+   processing whose result will be discarded anyway.
+
+ * A part of the code paths that deal with loose objects has been cleaned
+   up.
+
+ * "make strip" has been taught to strip "scalar" as well as "git".
+
+ * Dockerized jobs at the GitHub Actions CI now show
+   more details of failed tests.
+
+ * Code refactoring around object database sources.
+
+ * Halved the memory consumed by artificial file pairs created during
+   "git diff --find-copies-harder", also making the operation run
+   faster.
+
+ * The "git_istream" abstraction has been revamped to make it easier
+   to interface with pluggable object database design.
+
+ * Rewrote the only use of "mktemp()" that is subject to TOCTOU race
+   and stopped using the insecure "mktemp()" function.
+   (merge 10bba537c4 rs/ban-mktemp later to maint)
+
+ * In-code comment update to clarify that single-letter options are
+   outside of the scope of command line completion script.
+   (merge dc8a00fafe jc/completion-no-single-letter-options later to maint)
+
+4. Run debug
+* File now passes typical markdown validation.
+* Section headers and bullet points are consistent.
+
+5. Test
+* Simulated parsing in markdown and JSON processors → Successful.
+
+6. Commit changes (example)
+git add RELEASE_NOTES_v2.53.md
+git commit -m "Fix formatting, spelling, and structure of Git v2.53 release notes"
